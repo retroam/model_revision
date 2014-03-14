@@ -1,4 +1,4 @@
-function params = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A)
+function params = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,K_mod)
 
 % Parameters for rat signaling model
 % params = ratPARAMS()
@@ -28,6 +28,7 @@ kr_RaG = KG;
 kr_LRaG2 = (gamma_L*KG);
 kr_ARa1  = (alpha_A*KA);
 kr_ARi = KA;
+kr_ARii = K_mod;
 kr_ARaG2 = (gamma_A*KG);
 
 
@@ -36,5 +37,5 @@ kr_ARaG2 = (gamma_A*KG);
 
 %% Assemble Parameters Array
   params =  [Ltot  Atot kr_Ra kr_LRa1 kr_LRi kr_RaG kr_LRaG2 kr_ARa1 ...
-      kr_ARi  kr_ARaG2 b1ARtot Gstot];
+      kr_ARi  kr_ARaG2 b1ARtot Gstot kr_ARii];
 

@@ -10,6 +10,7 @@ load KLcalc; load fitalpha;
 KL = KLcalc(1);
 alpha_L = fitalpha(1);
 KA = KLcalc(18);
+K_mod = KA;
 KR = 10;
 alpha_A = fitalpha(18);
 gamma_A = 1;
@@ -22,7 +23,7 @@ RelTol = 1e-13;
 MaxStep = 1e3;
 options = odeset('MaxStep',MaxStep,'NonNegative',[1:2],'RelTol',RelTol);
 
-params = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A);
+params = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,1e-10*K_mod);
 %% receptor species
 
 load KLcalc; load fitalpha;
@@ -31,7 +32,7 @@ alpha_L = fitalpha(1);
 KA = KLcalc(17);
 alpha_A = fitalpha(17);
 KG = 2.4131;gamma_L =  0.3762;
-p = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A);
+p = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,K_mod);
 CAR_dose = 0.3;
 y0 = zeros(2,1);[~,y] = ode15s(@receptorODE,[0; 20*60*1000],y0,options,p);
 y0 = y(end,:);
@@ -68,12 +69,12 @@ yCell=mat2cell(yGly,size(yGly,1),ones(size(yGly,2),1));
 % algvarsGly =  100*algvarsGly./repmat(Rtot,1,8);
  idx = Rtot< .0132+1e-4;
  algvarsCell=mat2cell(algvarsGly,size(algvarsGly,1),ones(size(algvarsGly,2),1));
-[Ra, LRi ,LRa, RaG, LRaG ,ARi, ARa ,ARaG] =  algvarsCell{:};
+[Ra, LRi ,LRa, RaG, LRaG ,ARi, ARa ,ARaG, ARii] =  algvarsCell{:};
 %%
 color2= [0.6 0 0];color1 = [0.5 0.5 0.5];
 r = 0.0132;
  subplot(2,3,1);plot(tGly(idx),Ra(idx)./r,'LineWidth',2,'Color',color1);ylabel('Ra (% \beta1-AR)');hold all;xlabel('time (min)');
- subplot(2,3,2);plot(tGly(idx),LRa(idx)./r,'LineWidth',2,'Color',color1);ylabel('LRa (% \beta1-AR)');hold all;xlabel('time (min)');
+ subplot(2,3,2);plot(tGly(idx),ARii(idx)./r,'LineWidth',2,'Color',color1);ylabel('ARii (% \beta1-AR)');hold all;xlabel('time (min)');
 subplot(2,3,3);plot(tGly(idx),RaG(idx)./r,'LineWidth',2,'Color',color1);ylabel('RaG (% \beta1-AR)');hold all;xlabel('time (min)');
 subplot(2,3,4);plot(tGly(idx),LRaG(idx)./r,'LineWidth',2,'Color',color1);ylabel('LRaG (% \beta1-AR)');hold all;xlabel('time (min)');
 subplot(2,3,5);plot(tGly(idx),ARi(idx)./r,'LineWidth',2,'Color',color1);ylabel('ARi (% \beta1-AR)');hold all;xlabel('time (min)');
