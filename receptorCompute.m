@@ -31,8 +31,8 @@ alpha_L = fitalpha(1);
 KA = KLcalc(17);
 alpha_A = fitalpha(17);
 KG = 2.4131;gamma_L =  0.3762;
-p = receptorPARAMS(KR,KL,1e1*KA,KG,alpha_L,alpha_A,gamma_L,gamma_A);
-
+p = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A);
+CAR_dose = 0.3;
 y0 = zeros(2,1);[~,y] = ode15s(@receptorODE,[0; 20*60*1000],y0,options,p);
 y0 = y(end,:);
 tspan1 = [0;2*60*1000]; 
@@ -43,14 +43,14 @@ for tstep=1:length(t1),
 end
 
 tspan = [2*60*1000; 6*60*1000]; y0 = y1(end,:);
-p(1) = 0.1;p(2) = 0.3;
+p(1) = 0.1;p(2) = CAR_dose;
 [t2,y2] = ode15s(@receptorODE,tspan,y0,options,p);
 for tstep=1:length(t2),
     [~,algvars2(tstep,:)]=receptorODE(t2(tstep),y2(tstep,:),p);
 end
 
 tspan = [6*60*1000; 10*60*1000]; y0 = y2(end,:);
-p(1) = 10;p(2) = 0.3;
+p(1) = 10;p(2) = CAR_dose;
 [t3,y3] = ode15s(@receptorODE,tspan,y0,options,p);
 for tstep=1:length(t3),
     [~,algvars3(tstep,:)]=receptorODE(t3(tstep),y3(tstep,:),p);
@@ -79,7 +79,7 @@ subplot(2,3,4);plot(tGly(idx),LRaG(idx)./r,'LineWidth',2,'Color',color1);ylabel(
 subplot(2,3,5);plot(tGly(idx),ARi(idx)./r,'LineWidth',2,'Color',color1);ylabel('ARi (% \beta1-AR)');hold all;xlabel('time (min)');
 subplot(2,3,6);plot(tGly(idx),Rtot(idx),'LineWidth',2,'Color',color1);xlabel('time (min)');ylabel('Rtot (\muM)');hold all;
 %%
-set(gcf, 'PaperPositionMode', 'manual');
- set(gcf, 'PaperUnits', 'inches');
- set(gcf, 'PaperPosition', [0.0 3.5 9.0  6.2]);
-print -dpdf KA_changes
+% set(gcf, 'PaperPositionMode', 'manual');
+%  set(gcf, 'PaperUnits', 'inches');
+%  set(gcf, 'PaperPosition', [0.0 3.5 9.0  6.2]);
+% print -dpdf KA_changes
