@@ -23,7 +23,7 @@ RelTol = 1e-13;
 MaxStep = 1e3;
 options = odeset('MaxStep',MaxStep,'NonNegative',[1:2],'RelTol',RelTol);
 
-params = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,1e-10*K_mod);
+params = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,K_mod);
 %% receptor species
 
 load KLcalc; load fitalpha;
@@ -34,6 +34,7 @@ alpha_A = fitalpha(17);
 KG = 2.4131;gamma_L =  0.3762;
 p = receptorPARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,K_mod);
 CAR_dose = 0.3;
+ISO_dose = 0;
 y0 = zeros(2,1);[~,y] = ode15s(@receptorODE,[0; 20*60*1000],y0,options,p);
 y0 = y(end,:);
 tspan1 = [0;2*60*1000]; 
@@ -69,7 +70,7 @@ yCell=mat2cell(yGly,size(yGly,1),ones(size(yGly,2),1));
 % algvarsGly =  100*algvarsGly./repmat(Rtot,1,8);
  idx = Rtot< .0132+1e-4;
  algvarsCell=mat2cell(algvarsGly,size(algvarsGly,1),ones(size(algvarsGly,2),1));
-[Ra, LRi ,LRa, RaG, LRaG ,ARi, ARa ,ARaG, ARii] =  algvarsCell{:};
+[Ra, LRi ,LRa, RaG, LRaG ,ARi, ARa ,ARaG, ARii,ARai] =  algvarsCell{:};
 %%
 color2= [0.6 0 0];color1 = [0.5 0.5 0.5];
 r = 0.0132;

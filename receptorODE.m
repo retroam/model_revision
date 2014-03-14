@@ -15,7 +15,7 @@ function [dydt,algvars] = receptorODE(t,y,params)
 %% Assign Parameters and State Variables
 pCell = num2cell(params);
   [Ltot ,Atot,kr_Ra, kr_LRa1,kr_LRi,kr_RaG, kr_LRaG2, kr_ARa1,...
-      kr_ARi, kr_ARaG2, b1ARtot, Gstot, kr_ARii] = pCell{:};
+      kr_ARi, kr_ARaG2, b1ARtot, Gstot, kr_ARii,kr_ARa1i] = pCell{:};
 
 yCell = num2cell(y);
 [Ri,G]=yCell{:};
@@ -36,9 +36,10 @@ LRaG = LRa*G/kr_LRaG2;
 ARi = Atot*Ri/kr_ARi;
 ARii = Atot*Ri/kr_ARii;
 ARa = Atot*Ra/kr_ARa1;
+ARai = Atot*Ra/kr_ARa1i;
 ARaG = ARa*G/kr_ARaG2;
 b1ARact = b1ARtot;
-dRi = b1ARact -  Ra - LRi - LRa - RaG - LRaG - ARi - ARa - ARaG - Ri - ARii;
+dRi = b1ARact -  Ra - LRi - LRa - RaG - LRaG - ARi - ARa - ARaG - Ri - ARii - ARai;
 dG = Gstot - LRaG - RaG - ARaG  - G;
 
 
@@ -50,4 +51,4 @@ dG = Gstot - LRaG - RaG - ARaG  - G;
 
 dydt = [dRi dG]';
 
-algvars = [Ra LRi LRa RaG LRaG ARi ARa ARaG ARii];
+algvars = [Ra LRi LRa RaG LRaG ARi ARa ARaG ARii ARai];
