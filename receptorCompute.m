@@ -81,7 +81,7 @@ subplot(2,3,4);plot(tGly(idx),LRaG(idx)./r,'LineWidth',2,'Color',color1);ylabel(
 subplot(2,3,5);plot(tGly(idx),ARi(idx)./r,'LineWidth',2,'Color',color1);ylabel('ARi (% \beta1-AR)');hold all;xlabel('time (min)');
 subplot(2,3,6);plot(tGly(idx),Rtot(idx),'LineWidth',2,'Color',color1);xlabel('time (min)');ylabel('Rtot (\muM)');hold all;
 %%
-% set(gcf, 'PaperPositionMode', 'manual');
-%  set(gcf, 'PaperUnits', 'inches');
-%  set(gcf, 'PaperPosition', [0.0 3.5 9.0  6.2]);
-% print -dpdf KA_changes
+set(gcf, 'PaperPositionMode', 'manual');
+set(gcf, 'PaperUnits', 'inches');
+set(gcf, 'PaperPosition', [0.0 3.5 9.0  6.2]);
+print -dpdf model_changes
