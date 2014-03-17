@@ -32,37 +32,37 @@ MaxStep = 1e3;
 options = odeset('MaxStep',MaxStep,'NonNegative',[1:29],'RelTol',RelTol);
 p = daePARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,scaling_factor);
 
-
-y0 = zeros(29,1);[~,y] = ode15s(@daeODE,[0; 20*60*1000],y0,options,p);
+flag = 0;
+y0 = zeros(29,1);[~,y] = ode15s(@daeODE,[0; 20*60*1000],y0,options,p,flag);
 y0 = y(end,:);
 
 tspan1 = [0;2*60*1000]; 
-p(1) = 0;p(2) = 0;
-[t1,y1] = ode15s(@daeODE,tspan1,y0,options,p);
+p(1) = 0;p(2) = 0;flag = 0;
+[t1,y1] = ode15s(@daeODE,tspan1,y0,options,p,flag);
 for tstep=1:length(t1),
-    [~,algvars1(tstep,:)]=daeODE(t1(tstep),y1(tstep,:),p);
+    [~,algvars1(tstep,:)]=daeODE(t1(tstep),y1(tstep,:),p,flag);
 end
 
 tspan = [2*60*1000; 2.1*60*1000]; y0 = y1(end,:);
-p(1) = 0.1;p(2) = 0.1;
-[t2,y2] = ode15s(@daeODE,tspan,y0,options,p);
+p(1) = 0.1;p(2) = 0.1;flag = 1;
+[t2,y2] = ode15s(@daeODE,tspan,y0,options,p,flag);
 for tstep=1:length(t2),
-    [~,algvars2(tstep,:)]=daeODE(t2(tstep),y2(tstep,:),p);
+    [~,algvars2(tstep,:)]=daeODE(t2(tstep),y2(tstep,:),p,flag);
 end
 
 
 tspan = [2.1*60*1000; 6*60*1000]; y0 = y2(end,:);
-p(1) = 0.1;p(2) = 0.1;
-[t3,y3] = ode15s(@daeODE,tspan,y0,options,p);
+p(1) = 0.1;p(2) = 0.1;flag = 1;
+[t3,y3] = ode15s(@daeODE,tspan,y0,options,p, flag);
 
 for tstep=1:length(t3),
-    [~,algvars3(tstep,:)]=daeODE(t3(tstep),y3(tstep,:),p);
+    [~,algvars3(tstep,:)]=daeODE(t3(tstep),y3(tstep,:),p,flag);
 end
 tspan = [6*60*1000; 10*60*1000]; y0 = y3(end,:);
-p(1) = 10;p(2) = 0.1;
-[t4,y4] = ode15s(@daeODE,tspan,y0,options,p);
+p(1) = 10;p(2) = 0.1;flag = 1;
+[t4,y4] = ode15s(@daeODE,tspan,y0,options,p,flag);
 for tstep=1:length(t4),
-    [~,algvars4(tstep,:)]=daeODE(t4(tstep),y4(tstep,:),p);
+    [~,algvars4(tstep,:)]=daeODE(t4(tstep),y4(tstep,:),p,flag);
 end
 
 tGly = [t1;t2;t3;t4]./60e3;

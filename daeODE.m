@@ -1,4 +1,4 @@
-function [dydt,algvars] = daeODE(t,y,params)
+function [dydt,algvars] = daeODE(t,y,params,flag)
 
 % ODE for rat b-adrenergic signaling model(based on Jason Yang's mouse
 % model)
@@ -72,7 +72,12 @@ PKA_resens =  kr_PKA*b1AR_S301;
 db1AR_S464 = bARK_desens - bARK_resens;
 db1AR_S301 = PKA_desens - PKA_resens;
 
-G_act = k_G_act*(RaG+LRaG + ARaG)*scaling_factor;
+if flag == 1
+    G_act = k_G_act*(RaG+LRaG + ARaG)*scaling_factor;
+else
+    G_act = k_G_act*(RaG+LRaG + ARaG);
+end
+
 G_hyd = k_G_hyd*GsaGTPtot;
 G_reassoc = k_G_reassoc*GsaGDP*Gsby;
 dGsaGTPtot = G_act - G_hyd;
