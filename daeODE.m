@@ -73,7 +73,7 @@ db1AR_S464 = bARK_desens - bARK_resens;
 db1AR_S301 = PKA_desens - PKA_resens;
 
 if flag == 1
-    G_act = k_G_act*(RaG+LRaG + ARaG)*scaling_factor;
+    G_act = k_G_act*(RaG+LRaG + ARaG)*(Atot/(scaling_factor + Atot));
 else
     G_act = k_G_act*(RaG+LRaG + ARaG);
 end

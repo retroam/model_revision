@@ -23,7 +23,7 @@ load fitalpha.mat;
    KLcalc = (0.2/KLcalc(1))*KLcalc; 
 KG = 2.4131;gamma_L =  0.3762;
 flag = 0;
-scaling_factor = 0.1;
+scaling_factor = .326;
 %%
 p = daePARAMS(KR,KL,KA,KG,alpha_L,alpha_A,gamma_L,gamma_A,scaling_factor);
 
