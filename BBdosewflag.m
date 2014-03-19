@@ -59,7 +59,7 @@ for i=1:length(beta_blocker)
         [t3,y3]=ode15s(@daeODE,tspan2,yfinal,options,p,flag(i));
         bg(j,3) = max(y3(end,9));
     end 
-         sensitivity(:,i) = (bg(:,3)- bg(:,2));
+           sensitivity(:,i) = (bg(:,3)- bg(:,2));
            response(:,i) = (bg(:,2));
 
 end
